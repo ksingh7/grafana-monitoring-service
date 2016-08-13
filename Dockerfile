@@ -72,13 +72,15 @@ RUN     chmod 0664 /opt/graphite/storage/graphite.db
 RUN     cd /opt/graphite/webapp/graphite && python manage.py syncdb --noinput
 
 # Configure Grafana
+RUN     mkdir -p /opt/grafana/data
 ADD     ./grafana/custom.ini /opt/grafana/conf/custom.ini
+ADD     ./grafana/grafana.db /opt/grafana/data
 
 # Add the default dashboards
-RUN     mkdir /src/dashboards
-ADD     ./grafana/dashboards/* /src/dashboards/
-RUN     mkdir /src/dashboard-loader
-ADD     ./grafana/dashboard-loader/dashboard-loader.js /src/dashboard-loader/
+#RUN     mkdir /src/dashboards
+#ADD     ./grafana/dashboards/* /src/dashboards/
+#RUN     mkdir /src/dashboard-loader
+#ADD     ./grafana/dashboard-loader/dashboard-loader.js /src/dashboard-loader/
 
 # Configure nginx and supervisord
 ADD     ./nginx/nginx.conf /etc/nginx/nginx.conf
@@ -101,7 +103,7 @@ EXPOSE  8126
 # Graphite web port
 EXPOSE 81
 
-
+EXPOSE 2003
 
 # -------- #
 #   Run!   #
