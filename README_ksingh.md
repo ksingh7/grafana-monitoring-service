@@ -1,18 +1,21 @@
-#1   On monitoring server setup following
+# Step-1   
+On monitoring server setup following
 - Hostname
 - Timezone
 - Disable SELINUX
 - install docker
 - Clone this repository
 
-#2   Attach a new disk to store monitoring data, create 
+# Step-2   
+Attach a new disk to store monitoring data, create 
 - LVM
 - use ext4 filesystem as it supports both increase and decrease
 - mount at /monitoring-service
 - update /etc/fstab
 
 
-#3   Create necessary directories
+# Step-3
+Create necessary directories
 ```
 cd /monitoring-service;
 mkdir -p data/whisper;
@@ -25,15 +28,18 @@ chmod -R 777 data;
 chmod -R 777 log;
 ```
 
-#5   Recheck the following configuration under Dockerfile before building docker image
+# Step-4
+Recheck the following configuration under Dockerfile before building docker image
 - ./graphite/carbon.conf   (MAX_UPDATES_PER_SECOND)
 - ./graphite/storage-schema.conf  (Retention)
 - ./grafana/grafana.db ( if you have existing grafana database and want to apply that)
 
-#4   Create docker image using Dockerfile
+# Step-5
+Create docker image using Dockerfile
 ```docker build  -t 'karansingh/rht_sat_monitoring_service:v3' .```
 
-#5   Start docker container using Docker image created in last step. Make sure 
+# Step-6
+Start docker container using Docker image created in last step. Make sure 
 - To change directory to /monitoring-service
 - docke restart policy is set
 
@@ -56,12 +62,15 @@ docker run \
    karansingh/rht_sat_monitoring_service:v3
 ```
 
-#6   Verify clients can connect to monitoring server on the following exposed ports
+# Step-7
+Verify clients can connect to monitoring server on the following exposed ports
 80, 81, 2003
 
-#7   Setup grafana web, take examples from grafana dashboards in the repo
+# Step-8
+Setup grafana web, take examples from grafana dashboards in the repo
 
-#8   If you are migrating your app , then
+# Step-9
+If you are migrating your app , then
 - Take grafana.db backup in advance
 - Taek grafana dashboards just in case
 - Make sure metric data is availab for you to use again.
