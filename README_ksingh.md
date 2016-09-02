@@ -74,3 +74,20 @@ If you are migrating your app , then
 - Take grafana.db backup in advance
 - Taek grafana dashboards just in case
 - Make sure metric data is availab for you to use again.
+
+# Troubleshooting
+If you see problems like , graphite not storing data past 7 days (https://github.com/kamon-io/docker-grafana-graphite/issues/79). This can be related to retention configured in storage-schema.conf. To fix this i have updated retention with correct format , refer that.
+To verify if retention set is correct , run  /opt/graphite/bin/validate-storage-schemas.py
+
+Restart carbon-cache service
+
+/usr/bin/python /opt/graphite/bin/carbon-cache.py --pidfile /var/run/carbon-cache-a.pid --debug stop
+/usr/bin/python /opt/graphite/bin/carbon-cache.py --pidfile /var/run/carbon-cache-a.pid --debug status
+netstat -plunt ; ps -ef | grep -i carbon
+/usr/bin/python /opt/graphite/bin/carbon-cache.py --pidfile /var/run/carbon-cache-a.pid --nodaemon start
+/usr/bin/python /opt/graphite/bin/carbon-cache.py --pidfile /var/run/carbon-cache-a.pid --debug status
+netstat -plunt ; ps -ef | grep -i carbon 
+
+Verify whisper .wsp files are have format as mentioned in retention
+pip install whisper
+whisper-info.py <whisper.wsp>
