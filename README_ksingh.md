@@ -80,14 +80,16 @@ If you see problems like , graphite not storing data past 7 days (https://github
 To verify if retention set is correct , run  /opt/graphite/bin/validate-storage-schemas.py
 
 Restart carbon-cache service
-
+```
 /usr/bin/python /opt/graphite/bin/carbon-cache.py --pidfile /var/run/carbon-cache-a.pid --debug stop
 /usr/bin/python /opt/graphite/bin/carbon-cache.py --pidfile /var/run/carbon-cache-a.pid --debug status
 netstat -plunt ; ps -ef | grep -i carbon
-/usr/bin/python /opt/graphite/bin/carbon-cache.py --pidfile /var/run/carbon-cache-a.pid --nodaemon start
+/usr/bin/python /opt/graphite/bin/carbon-cache.py --pidfile /var/run/carbon-cache-a.pid start
 /usr/bin/python /opt/graphite/bin/carbon-cache.py --pidfile /var/run/carbon-cache-a.pid --debug status
 netstat -plunt ; ps -ef | grep -i carbon 
-
+```
 Verify whisper .wsp files are have format as mentioned in retention
+```
 pip install whisper
 whisper-info.py <whisper.wsp>
+```
